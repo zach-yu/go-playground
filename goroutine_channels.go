@@ -27,7 +27,6 @@ func f1(){
 	select {
 		case <- doSth(1):
 			fmt.Printf("f1 success\n")
-			return
 		case <- time.After(1500*time.Millisecond):
 			fmt.Printf("f1 error\n")
 			errChan <- timeOutError
@@ -40,7 +39,6 @@ func f2(){
 	select {
 		case <- doSth(2):
 			fmt.Printf("f2 success\n")
-			return
 		case <- time.After(1*time.Second):
 			fmt.Printf("f2 error\n")
 			errChan <- timeOutError
@@ -73,7 +71,7 @@ func main() {
 	}()
 	
 	for err := range errChan {
-		// return early in case of error in one of the go routine
+		// return early if there is error in one of the go routine
 		if err != nil {
 			return
 		}
